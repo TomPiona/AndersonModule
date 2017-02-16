@@ -9,7 +9,13 @@ class sbs(object):
 
 	def __init__(self):
 		
-		# make a different variable for each part of the css
+		# make it so that each time you generate an object w/ split
+		# there is a new id for the div tags bc otherwise it
+		# changes all of the divs
+
+		# can do that by adding a count to instance attributes
+		# and a increment it when create css is called
+		# AND include it in body (in split)
 
 		self.rightbackground = '#98AFC7'
 		self.leftbackground = 'lightgray'
@@ -25,6 +31,8 @@ class sbs(object):
 		self.additionalcss = ''
 
 	def create_css(self):
+
+		#make this a multi line string
 		return "{} #wrapper {{width:100%;clear:both;display: flex;font-family:{};}} #left {{background-color: {};width:49%;float:left;padding: .5vw;border-right: solid black 1.5px;text-align:{};}} #right {{background-color: {} !important;width:49%;float:left;padding: .5vw;border-left: solid black 1.5px;text-align:{};}}".format(self.additionalcss, self.fonttype, self.leftbackground, self.alignleft, self.rightbackground, self.alignright)
 		print(self.rightbackground)
 
