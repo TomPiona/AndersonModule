@@ -1,6 +1,6 @@
 from IPython.core.display import display, HTML
 import translation 
-import nltk
+
 
 class translate(object):
 
@@ -15,9 +15,9 @@ class translate(object):
 		self.language_to = language_to
 
 		self.funcs = {'original text':self.original_text_pls, 'translate':self.tranlate_pls,
-		 'parts of speech':self.parts_of_speech_pls, 'morphology':self.morphology_pls}
+		 'parts of speech':self.polyglot_pos, 'language':self.polyglot_languages}
 		self.header = {'original text':'Original Text:', 'translate':'Translation:',
-		 'parts of speech':'Parts of Speech:', 'morphology':'Morphology:'}
+		 'parts of speech':'Parts of Speech:', 'language':'Language(s) Detected:'}
 
 		self.fonttype = 'Courier New'
 		self.additionalcss = ''
@@ -33,12 +33,29 @@ class translate(object):
 		return txt
 
 	def parts_of_speech_pls(self, txt):
+		import nltk
 		tokenized = nltk.word_tokenize(txt)
 		return nltk.pos_tag(tokenized)
 
-	def morphology_pls(self, txt):
-		return txt
+	def polyglot_languages(self, txt):
+		from polyglot.detect import Detector
+		langs = Detector(txt, quiet=True).languages
+		selected_items = [(x.name, x.confidence) for x in langs]
+		# converting to readable from Detector objects
+		stringy_list = ['Name: ' + str(x) + '    Confidence: ' +str(y) for x,y in selected_items]
+		return '<br><br>'.join(stringy_list)
 
+	def polyglot_pos(self, txt):
+		from polyglot.text import Text
+		return Text(txt).pos_tags
+
+
+	# make a function for part of speech counts
+	# and names in the text
+	# maybe name counts
+
+	# make it so that we can try different translating services
+	# a google integration may be necessary :(
 
 
 
